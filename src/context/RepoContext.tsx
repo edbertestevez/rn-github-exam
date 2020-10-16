@@ -112,7 +112,7 @@ export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
 				},
 				//Paginaion Function
 				updatePagination: (searchPage: number): void => {
-					if(!isPaginating){
+					if (!isPaginating) {
 						setState({ ...state, searchPage });
 					}
 				}

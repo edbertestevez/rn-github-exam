@@ -22,8 +22,7 @@ const AppNavigation = () => {
 			{isAppLoading ? (
 				//Splash screen
 				<InitialStack />
-			) : 
-			state && state.isLoggedIn ? (
+			) : state && state.isLoggedIn ? (
 				//Authenticated screens
 				<AuthenticatedStack />
 			) : (
@@ -34,8 +33,6 @@ const AppNavigation = () => {
 	);
 };
 
-export {
-	RootNavigation
-}
+export { RootNavigation };
 
 export default AppNavigation;

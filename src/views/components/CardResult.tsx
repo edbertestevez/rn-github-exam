@@ -9,7 +9,7 @@ type Props = IResultItem;
 
 const CardResult: React.FC<Props> = (props: Props) => {
 	return (
-		<TouchableOpacity onPress={()=>props.onItemPress(props)} activeOpacity={0.7} style={styles.container}>
+		<TouchableOpacity onPress={() => props.onItemPress(props)} activeOpacity={0.7} style={styles.container}>
 			<Text style={styles.repo_name}>{props.full_name}</Text>
 			<Text style={styles.description}>{props.description || 'No Description'}</Text>
 
