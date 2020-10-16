@@ -1,6 +1,7 @@
 export enum AppColors {
-  Primary="#424242",
-  Green="#28A745",
-  DarkGrey="#636363",
-  LightGrey="#F3F3F3"
+  PRIMARY="#424242",
+  GREEN="#28A745",
+  DARK_GREY="#636363",
+  LIGHT_GREY="#F3F3F3",
+  WHITE="#FFFFFF",
 }
