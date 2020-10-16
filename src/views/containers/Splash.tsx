@@ -1,11 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View } from 'react-native';
 
 const Splash = () => {
-  return (
-    <Text>Initial Screen</Text>
-  );
+	return <View/>;
 };
 
 export default Splash;
-

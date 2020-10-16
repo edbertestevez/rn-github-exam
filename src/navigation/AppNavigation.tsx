@@ -5,6 +5,7 @@ import { InitialStack } from './stacks/InitialStack';
 import { PublicStack } from './stacks/PublicStack';
 import { AuthContext } from '../context/AuthContext';
 import { AuthenticatedStack } from './stacks/AuthenticatedStack';
+import * as RootNavigation from './RootNavigation';
 
 const AppNavigation = () => {
 	let { state } = useContext(AuthContext);
@@ -21,8 +22,7 @@ const AppNavigation = () => {
 			{isAppLoading ? (
 				//Splash screen
 				<InitialStack />
-			) : 
-			state && state.isLoggedIn ? (
+			) : state && state.isLoggedIn ? (
 				//Authenticated screens
 				<AuthenticatedStack />
 			) : (
@@ -32,5 +32,7 @@ const AppNavigation = () => {
 		</NavigationContainer>
 	);
 };
+
+export { RootNavigation };
 
 export default AppNavigation;

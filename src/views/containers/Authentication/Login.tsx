@@ -3,7 +3,7 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../../../context/AuthContext';
 import { AppRoutes } from '../../../navigation/AppRoutes';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import styles from './Login.style';
+import styles from './styles/Login.style';
 
 const Login: React.FC = () => {
   const { state, updateAuth } = useContext(AuthContext)
