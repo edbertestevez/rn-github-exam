@@ -6,7 +6,7 @@ interface IAppState{
 }
 
 interface IUpdateAuth{
-    (authUpdate: boolean): void
+    (authValue: boolean): void
 }
 
 interface IAppContext{
@@ -42,9 +42,11 @@ export const AuthProvider = ({children}:{children: React.ReactNode}) =>{
 
     return(
         <AuthContext.Provider value={{
+            //App Context State
             state,
-            updateAuth: (authUpdate: boolean) : void => {
-                setState({...state, isLoggedIn: authUpdate})
+            //Auth Function
+            updateAuth: (authValue: boolean) : void => {
+                setState({...state, isLoggedIn: authValue})
             }
         }}>
             {children}

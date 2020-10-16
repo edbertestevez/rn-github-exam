@@ -1,14 +1,22 @@
 import React, { useState, useContext } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { AuthContext } from '../../../context/AuthContext';
+import { AppRoutes } from '../../../navigation/AppRoutes';
+import * as RootNavigation from '../../../navigation/RootNavigation';
 import styles from './Login.style';
 
-const Login = () => {
+const Login: React.FC = () => {
+  const { state, updateAuth } = useContext(AuthContext)
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const isInputValid = email && password;
   
   const loginUser = () => {
-    /**Insert login logic */
+    updateAuth?.(true);
+  }
+
+  if(state && state.isLoggedIn){
+    RootNavigation.navigate(AppRoutes.REPO_LIST)
   }
 
 	return (
@@ -17,7 +25,7 @@ const Login = () => {
         <TextInput
           style={styles.input}
           value={email}
-          autoCompleteType={"email"}
+          keyboardType={"email-address"}
           placeholder={"Email"}
           onChangeText={(txt) => setEmail(txt)}
         />
@@ -25,7 +33,7 @@ const Login = () => {
         <TextInput
           style={styles.input}
           value={password}
-          autoCompleteType={"password"}
+          secureTextEntry={true}
           placeholder={"Password"}
           onChangeText={(txt) => setPassword(txt)}
         />
