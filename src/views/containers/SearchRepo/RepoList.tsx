@@ -4,8 +4,8 @@ import { AuthContext } from '../../../context/AuthContext';
 import { IResultItem, RepoContext } from '../../../context/RepoContext';
 import CardResult from '../../components/CardResult';
 import SearchHeader from './SearchHeader';
-import * as RootNavigation from '../../../navigation/RootNavigation';
 import { AppRoutes } from '../../../navigation/AppRoutes';
+import { RootNavigation } from '../../../navigation/AppNavigation';
 
 const RepoList: React.FC = () => {
   const { updateAuth } = useContext(AuthContext);
@@ -19,7 +19,7 @@ const RepoList: React.FC = () => {
         description={item.description}
         language={item.language}
         stargazers_count={item.stargazers_count}
-        onItemPress={(item: IResultItem)=>console.log("Redirect to view screen", item)}
+        onItemPress={(item: IResultItem)=>RootNavigation.navigate(AppRoutes.REPO_VIEW, {details: item})}
       />
     )
   }
