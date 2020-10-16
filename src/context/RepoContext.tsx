@@ -6,14 +6,21 @@ interface IUpdateSearch {
 	(searchText: string): void;
 }
 
+interface IUpdatePagination {
+	(searchPage: number): void;
+}
+
 interface IRepoState {
+	searchPage: number;
 	searchText: string;
 	searchResult: Array<IResultItem> | [];
 }
 
 interface IRepoContext {
 	state: IRepoState;
+	isLoading: boolean;
 	updateSearch: IUpdateSearch;
+	updatePagination: IUpdatePagination;
 }
 
 interface IRepoPress {
@@ -21,51 +28,76 @@ interface IRepoPress {
 }
 
 export interface IResultItem {
-	id: number
+	id: number;
 	full_name: string;
 	description: string;
 	language: string;
 	stargazers_count?: number;
-	html_url: string,
-	onItemPress: IRepoPress
+	html_url: string;
+	onItemPress: IRepoPress;
 }
 
 export const RepoContext = React.createContext<Partial<IRepoContext>>({});
 
 export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ isPaginating, setIsPaginating ] = useState(false);
 	const [ state, setState ] = useState<IRepoState>({
 		searchText: '',
-		searchResult: []
+		searchResult: [],
+		searchPage: 1
 	});
 
-	const debouncedFetchResult = useCallback(
-		_.debounce((search) => {
-			console.log("Fetching = ", search)
-			//Call Github API on search change
-			fetch(`${BASE_API_URL}?q=${search}&sort=stars&order=desc`, {
-				method: 'GET',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json'
-				}
+	const fetchResults = (text: string, page: number) => {
+		console.log('Fetching = ', text, page);
+		let isInitial = page === 1;
+
+		//Call Github API on search change
+		fetch(`${BASE_API_URL}?q=${text}&sort=stars&order=desc&page=${page}`, {
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			}
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setState({
+					...state,
+					searchPage: page,
+					searchText: text,
+					searchResult: isInitial ? res.items : [ ...state.searchResult, ...res.items ]
+				});
+				setIsLoading(false);
+				setIsPaginating(false);
 			})
-				.then((res) => res.json())
-				.then((res) =>
-					setState({
-						...state,
-						searchText: search,
-						searchResult: res.items
-					})
-				);
-		}, 500),
+			.catch(() => {
+				setIsLoading(false);
+				setIsPaginating(false);
+			});
+	};
+
+	const debounceSearch = useCallback(
+		_.debounce((text, page) => {
+			fetchResults(text, page);
+		}, 1500),
 		[]
 	);
 
 	useEffect(
 		() => {
-			debouncedFetchResult(state.searchText);
+			setIsLoading(true);
+			debounceSearch(state.searchText, state.searchPage);
 		},
 		[ state.searchText ]
+	);
+
+	useEffect(
+		() => {
+			setIsPaginating(true);
+			fetchResults(state.searchText, state.searchPage);
+		},
+		[ state.searchPage ]
 	);
 
 	return (
@@ -73,9 +105,16 @@ export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
 			value={{
 				//Repo Context State
 				state,
+				isLoading,
 				//Search Function
 				updateSearch: (searchText: string): void => {
-					setState({ ...state, searchText });
+					setState({ ...state, searchText, searchPage: 1 });
+				},
+				//Paginaion Function
+				updatePagination: (searchPage: number): void => {
+					if(!isPaginating){
+						setState({ ...state, searchPage });
+					}
 				}
 			}}
 		>

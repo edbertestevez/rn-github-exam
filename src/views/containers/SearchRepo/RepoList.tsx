@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
-import { Button, FlatList, ListRenderItem } from 'react-native';
-import { AuthContext } from '../../../context/AuthContext';
+import { ActivityIndicator, FlatList, ListRenderItem, Text } from 'react-native';
 import { IResultItem, RepoContext } from '../../../context/RepoContext';
 import CardResult from '../../components/CardResult';
 import SearchHeader from './SearchHeader';
 import { AppRoutes } from '../../../navigation/AppRoutes';
 import { RootNavigation } from '../../../navigation/AppNavigation';
+import { AppColors } from '../../../constants/AppColors';
 
 const RepoList: React.FC = () => {
-  const { updateAuth } = useContext(AuthContext);
-  const { state } = useContext(RepoContext);
+  const { state, updatePagination, isLoading } = useContext(RepoContext);
 
   const renderResult: ListRenderItem<IResultItem> = ({item}) =>{
     return(
@@ -24,14 +23,30 @@ const RepoList: React.FC = () => {
       />
     )
   }
+
+  const onPagination = () =>{
+    if(state?.searchPage){
+      updatePagination?.(state.searchPage + 1);
+    }
+  }
+  
   return (
     <React.Fragment>
       <SearchHeader/>
-      <FlatList
-        data={state?.searchResult}
-        renderItem={renderResult}
-        keyExtractor={item => item.id.toString()}
-      />
+
+      <Text style={{fontSize: 20}}>{state?.searchPage}</Text>
+      {isLoading ? (
+        <ActivityIndicator size={32} color={AppColors.BLUE}/>
+      ) : (
+        <FlatList
+          data={state?.searchResult}
+          renderItem={renderResult}
+          keyExtractor={item => item.id.toString()}
+          onEndReached={onPagination}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+      
     </React.Fragment>
   );
 };
