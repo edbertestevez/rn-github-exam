@@ -33,8 +33,7 @@ const RepoList: React.FC = () => {
   return (
     <React.Fragment>
       <SearchHeader/>
-
-      <Text style={{fontSize: 20}}>{state?.searchPage}</Text>
+      
       {isLoading ? (
         <ActivityIndicator size={32} color={AppColors.BLUE}/>
       ) : (
