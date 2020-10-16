@@ -1,12 +1,15 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
+import { AuthProvider } from './context/AuthContext';
 import AppNavigation from './navigation/AppNavigation';
 
 const App: React.FC = () => {
 	return (
-    <SafeAreaView style={styles.appContainer}>
-      <AppNavigation />
-    </SafeAreaView>
+    <AuthProvider>
+      <SafeAreaView style={styles.appContainer}>
+        <AppNavigation />
+      </SafeAreaView>
+    </AuthProvider>
 	);
 };
 
