@@ -5,9 +5,12 @@ import { FontSize } from '../../../../constants/FontSize';
 export default StyleSheet.create({
   container: {
     height: 60,
-    backgroundColor: AppColors.PRIMARY
+    backgroundColor: AppColors.PRIMARY,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   searchInput: {
+    flex: 1,
     fontSize: FontSize.NORMAL,
     color: AppColors.WHITE,
     backgroundColor: AppColors.DARK_GREY,

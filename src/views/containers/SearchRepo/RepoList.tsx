@@ -32,7 +32,6 @@ const RepoList: React.FC = () => {
         renderItem={renderResult}
         keyExtractor={item => item.id.toString()}
       />
-      <Button title={"LOGOUT"} onPress={()=>updateAuth?.(false)}/>
     </React.Fragment>
   );
 };
