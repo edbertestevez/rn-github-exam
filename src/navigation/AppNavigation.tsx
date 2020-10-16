@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from './RootNavigation';
 import { InitialStack } from './stacks/InitialStack';
+import { PublicStack } from './stacks/PublicStack';
 
 const AppNavigation = () => {
+	const [ isAppLoading, setIsAppLoading ] = useState(true);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setIsAppLoading(false);
+		}, 2000);
+	}, []);
+
 	return (
 		<NavigationContainer ref={navigationRef}>
-			<InitialStack/>
+			{isAppLoading ? (
+				<InitialStack />
+			) : (
+				<PublicStack />
+			)}
 		</NavigationContainer>
 	);
 };
