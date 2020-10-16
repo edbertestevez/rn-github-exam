@@ -19,6 +19,7 @@ const RepoList: React.FC = () => {
         description={item.description}
         language={item.language}
         stargazers_count={item.stargazers_count}
+        html_url={item.html_url}
         onItemPress={(item: IResultItem)=>RootNavigation.navigate(AppRoutes.REPO_VIEW, {details: item})}
       />
     )

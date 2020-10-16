@@ -26,6 +26,7 @@ export interface IResultItem {
 	description: string;
 	language: string;
 	stargazers_count?: number;
+	html_url: string,
 	onItemPress: IRepoPress
 }
 
