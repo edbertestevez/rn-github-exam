@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import _ from 'lodash';
 import { BASE_API_URL } from '../config/main';
 
 interface IUpdateSearch {
@@ -7,15 +7,15 @@ interface IUpdateSearch {
 }
 
 interface IResultItem {
-	title: string,
-	description: string,
-	language: string,
-	stars: number
+	title: string;
+	description: string;
+	language: string;
+	stars: number;
 }
 
 interface IRepoState {
 	searchText: string;
-	searchResult: Array<IResultItem> | []
+	searchResult: Array<IResultItem> | [];
 }
 
 interface IRepoContext {
@@ -31,31 +31,43 @@ export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
 		searchResult: []
 	});
 
-	useEffect(()=>{
-		//Call Github API on search change
-		fetch(`${BASE_API_URL}?q=${state.searchText}&sort=stars&order=desc`, {
-			method: "GET",
-			headers: {
-					'Accept': 'application/json',
+	const debouncedFetchResult = useCallback(
+		_.debounce((search) => {
+			//Call Github API on search change
+			fetch(`${BASE_API_URL}?q=${search}&sort=stars&order=desc`, {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
 					'Content-Type': 'application/json'
-			}
-		})
-		.then((res) => res.json())
-		.then((res) => setState({ 
-			...state,
-			searchResult: res.items
-		}));
-	},[state.searchText])
+				}
+			})
+				.then((res) => res.json())
+				.then((res) =>
+					setState({
+						...state,
+						searchText: search,
+						searchResult: res.items
+					})
+				);
+		}, 500),
+		[]
+	);
+
+	useEffect(
+		() => {
+			debouncedFetchResult(state.searchText);
+		},
+		[ state.searchText ]
+	);
 
 	return (
 		<RepoContext.Provider
 			value={{
-				//App Context State
+				//Repo Context State
 				state,
-				//Auth Function
+				//Search Function
 				updateSearch: (searchText: string): void => {
-					//Update search value initially
-					setState({...state, searchText});
+					setState({ ...state, searchText });
 				}
 			}}
 		>

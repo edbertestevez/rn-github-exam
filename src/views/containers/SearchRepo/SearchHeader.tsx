@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import { Text, View, StyleSheet, TextInput } from 'react-native';
-import { AppColors } from '../../constants/AppColors';
-import { FontSize } from '../../constants/FontSize';
-import { RepoContext } from '../../context/RepoContext';
+import { View, StyleSheet, TextInput } from 'react-native';
+import { AppColors } from '../../../constants/AppColors';
+import { FontSize } from '../../../constants/FontSize';
+import { RepoContext } from '../../../context/RepoContext';
 
 const SearchHeader: React.FC = () => {
   let { state, updateSearch } = useContext(RepoContext);
@@ -11,7 +11,7 @@ const SearchHeader: React.FC = () => {
     <View style={styles.container}>
       <TextInput
         value={state?.searchText}
-        onChangeText={search => updateSearch?.(search)}
+        onChangeText={(search: string) => updateSearch?.(search)}
         style={styles.searchInput}
         placeholder="Search Github Repository. . ."
         placeholderTextColor={AppColors.LIGHT_GREY}
