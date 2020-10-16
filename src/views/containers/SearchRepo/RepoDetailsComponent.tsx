@@ -6,7 +6,7 @@ import { Text, View, TouchableOpacity, ScrollView, Linking } from 'react-native'
 import { AppRoutes } from '../../../navigation/AppRoutes';
 import { IResultItem } from '../../../context/RepoContext';
 
-import styles from './RepoDetailsComponent.style';
+import styles from './styles/RepoDetailsComponent.style';
 
 type RepoStackParams = {
   [AppRoutes.REPO_LIST]: undefined;

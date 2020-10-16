@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { AppColors } from '../../../constants/AppColors';
-import { FontSize } from '../../../constants/FontSize';
 import { RepoContext } from '../../../context/RepoContext';
+import styles from './styles/SearchHeader.style';
 
 const SearchHeader: React.FC = () => {
   let { state, updateSearch } = useContext(RepoContext);
@@ -22,17 +22,3 @@ const SearchHeader: React.FC = () => {
 
 export default SearchHeader;
 
-const styles = StyleSheet.create({
-  container: {
-    height: 60,
-    backgroundColor: AppColors.PRIMARY
-  },
-  searchInput: {
-    fontSize: FontSize.NORMAL,
-    color: AppColors.WHITE,
-    backgroundColor: AppColors.DARK_GREY,
-    margin: 8,
-    borderRadius: 8,
-    paddingHorizontal: 16
-  }
-});

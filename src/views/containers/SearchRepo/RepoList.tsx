@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Text, Button, FlatList, ListRenderItem } from 'react-native';
+import { Button, FlatList, ListRenderItem } from 'react-native';
 import { AuthContext } from '../../../context/AuthContext';
 import { IResultItem, RepoContext } from '../../../context/RepoContext';
 import CardResult from '../../components/CardResult';

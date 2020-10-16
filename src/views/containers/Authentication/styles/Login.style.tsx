@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { AppColors } from '../../../constants/AppColors';
-import { FontSize } from '../../../constants/FontSize';
+import { AppColors } from '../../../../constants/AppColors';
+import { FontSize } from '../../../../constants/FontSize';
 
 const defaultElementWidth = Dimensions.get("window").width - 60;
 const defaultElementHeight = 60;

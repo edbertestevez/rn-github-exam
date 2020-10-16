@@ -4,7 +4,7 @@ import { AppColors } from '../../constants/AppColors';
 import { FontSize } from '../../constants/FontSize';
 import { IResultItem } from '../../context/RepoContext';
 
-//Add other possible card interface
+//Add other possible card interface for other modules that will reuse this component
 type Props = IResultItem;
 
 const CardResult: React.FC<Props> = (props: Props) => {

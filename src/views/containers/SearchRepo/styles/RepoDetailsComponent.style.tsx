@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { AppColors } from '../../../constants/AppColors';
-import { FontSize } from '../../../constants/FontSize';
+import { AppColors } from '../../../../constants/AppColors';
+import { FontSize } from '../../../../constants/FontSize';
 
 export default StyleSheet.create({
 	container: {
     flex: 1,
     backgroundColor: AppColors.WHITE,
     padding: 16
-  },
+  },  
   row:{
     flexDirection: 'row',
     alignItems: 'center',
