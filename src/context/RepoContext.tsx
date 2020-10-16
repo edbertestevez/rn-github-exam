@@ -6,13 +6,6 @@ interface IUpdateSearch {
 	(searchText: string): void;
 }
 
-interface IResultItem {
-	title: string;
-	description: string;
-	language: string;
-	stars: number;
-}
-
 interface IRepoState {
 	searchText: string;
 	searchResult: Array<IResultItem> | [];
@@ -21,6 +14,19 @@ interface IRepoState {
 interface IRepoContext {
 	state: IRepoState;
 	updateSearch: IUpdateSearch;
+}
+
+interface IRepoPress {
+	(props: IResultItem): void;
+}
+
+export interface IResultItem {
+	id: number
+	full_name: string;
+	description: string;
+	language: string;
+	stargazers_count?: number;
+	onItemPress: IRepoPress
 }
 
 export const RepoContext = React.createContext<Partial<IRepoContext>>({});
@@ -33,6 +39,7 @@ export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const debouncedFetchResult = useCallback(
 		_.debounce((search) => {
+			console.log("Fetching = ", search)
 			//Call Github API on search change
 			fetch(`${BASE_API_URL}?q=${search}&sort=stars&order=desc`, {
 				method: 'GET',
