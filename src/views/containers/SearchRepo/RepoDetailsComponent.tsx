@@ -7,6 +7,7 @@ import {AppRoutes} from '../../../navigation/AppRoutes';
 import {IResultItem} from '../../../context/RepoContext';
 
 import styles from './styles/RepoDetailsComponent.style';
+import flexStyles from '../../../styles/flexStyles';
 
 type RepoStackParams = {
   [AppRoutes.REPO_LIST]: undefined;
@@ -36,7 +37,7 @@ const RepoDetailsComponent: React.FC<Props> = (props: Props) => {
     <ScrollView style={styles.container}>
       <Text style={styles.full_name}>{details.full_name}</Text>
       <View style={styles.rowStats}>
-        <View style={styles.row}>
+        <View style={flexStyles.row}>
           <Text style={styles.starsLabel}>Stars</Text>
           <Text style={styles.starsValue}>{details.stargazers_count}</Text>
         </View>

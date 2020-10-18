@@ -8,10 +8,6 @@ export default StyleSheet.create({
     backgroundColor: AppColors.WHITE,
     padding: 16,
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   rowStats: {
     flexDirection: 'row',
     alignItems: 'center',

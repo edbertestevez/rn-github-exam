@@ -1,11 +1,12 @@
 import React, {useContext} from 'react';
-import {ActivityIndicator, FlatList, ListRenderItem, Text} from 'react-native';
+import {ActivityIndicator, FlatList, ListRenderItem} from 'react-native';
 import {IResultItem, RepoContext} from '../../../context/RepoContext';
 import CardResult from '../../components/CardResult';
 import SearchHeader from './SearchHeader';
 import {AppRoutes} from '../../../navigation/AppRoutes';
 import {RootNavigation} from '../../../navigation/AppNavigation';
 import {AppColors} from '../../../constants/AppColors';
+import EmptyList from '../../components/EmptyList';
 
 const RepoList: React.FC = () => {
   const {state, updatePagination, isLoading} = useContext(RepoContext);
@@ -41,7 +42,7 @@ const RepoList: React.FC = () => {
       ) : (
         <FlatList
           data={state?.searchResult}
-          ListEmptyComponent={<Text>No Records found.</Text>}
+          ListEmptyComponent={<EmptyList />}
           renderItem={renderResult}
           keyExtractor={(item) => item.id.toString()}
           onEndReached={onPagination}
