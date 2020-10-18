@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {ActivityIndicator, FlatList, ListRenderItem} from 'react-native';
+import {ActivityIndicator, FlatList, ListRenderItem, Text} from 'react-native';
 import {IResultItem, RepoContext} from '../../../context/RepoContext';
 import CardResult from '../../components/CardResult';
 import SearchHeader from './SearchHeader';
@@ -19,9 +19,9 @@ const RepoList: React.FC = () => {
         language={item.language}
         stargazers_count={item.stargazers_count}
         html_url={item.html_url}
-        onItemPress={(record: IResultItem) =>
-          RootNavigation.navigate(AppRoutes.REPO_VIEW, {details: record})
-        }
+        onItemPress={(record: IResultItem) => {
+          RootNavigation.navigate(AppRoutes.REPO_VIEW, {details: record});
+        }}
       />
     );
   };
@@ -41,6 +41,7 @@ const RepoList: React.FC = () => {
       ) : (
         <FlatList
           data={state?.searchResult}
+          ListEmptyComponent={<Text>No Records found.</Text>}
           renderItem={renderResult}
           keyExtractor={(item) => item.id.toString()}
           onEndReached={onPagination}

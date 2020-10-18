@@ -48,7 +48,7 @@ export const RepoProvider = ({children}: {children: React.ReactNode}) => {
     searchPage: 1,
   });
 
-  const fetchResults = (text: string, page: number) => {
+  const fetchResults = useCallback((text: string, page: number) => {
     console.log('Fetching = ', text, page);
     let isInitial = page === 1;
 
@@ -62,14 +62,14 @@ export const RepoProvider = ({children}: {children: React.ReactNode}) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        setState({
-          ...state,
+        setState((prevState) => ({
+          ...prevState,
           searchPage: page,
           searchText: text,
           searchResult: isInitial
             ? res.items
-            : [...state.searchResult, ...res.items],
-        });
+            : [...prevState.searchResult, ...res.items],
+        }));
         setIsLoading(false);
         setIsPaginating(false);
       })
@@ -77,24 +77,24 @@ export const RepoProvider = ({children}: {children: React.ReactNode}) => {
         setIsLoading(false);
         setIsPaginating(false);
       });
-  };
+  }, []);
 
   const debounceSearch = useCallback(
     _.debounce((text, page) => {
       fetchResults(text, page);
-    }, 1500),
+    }, 1000),
     [],
   );
 
   useEffect(() => {
     setIsLoading(true);
-    debounceSearch(state.searchText, state.searchPage);
-  }, [state.searchText]);
+    debounceSearch(state.searchText, 1);
+  }, [state.searchText, debounceSearch]);
 
   useEffect(() => {
     setIsPaginating(true);
-    fetchResults(state.searchText, state.searchPage);
-  }, [state.searchPage]);
+    fetchResults('', state.searchPage);
+  }, [state.searchPage, fetchResults]);
 
   return (
     <RepoContext.Provider

@@ -31,7 +31,7 @@ const CardResult: React.FC<Props> = (props: Props) => {
   );
 };
 
-export default CardResult;
+export default React.memo(CardResult);
 
 const styles = StyleSheet.create({
   container: {
