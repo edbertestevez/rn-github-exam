@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import _ from 'lodash';
 import {BASE_API_URL} from '../config/main';
-import {Alert} from 'react-native';
 
 interface IUpdateSearch {
   (searchText: string): void;
