@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
-import { View, TextInput, Button } from 'react-native';
-import { AppColors } from '../../../constants/AppColors';
-import { AuthContext } from '../../../context/AuthContext';
-import { RepoContext } from '../../../context/RepoContext';
+import {View, TextInput, Button} from 'react-native';
+import {AppColors} from '../../../constants/AppColors';
+import {AuthContext} from '../../../context/AuthContext';
+import {RepoContext} from '../../../context/RepoContext';
 import styles from './styles/SearchHeader.style';
 
 const SearchHeader: React.FC = () => {
-  let { state, updateSearch } = useContext(RepoContext);
-  let { updateAuth } = useContext(AuthContext);
+  let {state, updateSearch} = useContext(RepoContext);
+  let {updateAuth} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -18,10 +18,13 @@ const SearchHeader: React.FC = () => {
         placeholder="Search Github Repository. . ."
         placeholderTextColor={AppColors.LIGHT_GREY}
       />
-      <Button color={AppColors.PRIMARY} title={"LOGOUT"} onPress={()=>updateAuth?.(false)}/>
+      <Button
+        color={AppColors.PRIMARY}
+        title={'LOGOUT'}
+        onPress={() => updateAuth?.(false)}
+      />
     </View>
   );
 };
 
 export default SearchHeader;
-
