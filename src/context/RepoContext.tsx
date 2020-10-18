@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import _ from 'lodash';
 import {BASE_API_URL} from '../config/main';
+import {Alert} from 'react-native';
 
 interface IUpdateSearch {
   (searchText: string): void;
@@ -47,37 +48,46 @@ export const RepoProvider = ({children}: {children: React.ReactNode}) => {
     searchResult: [],
     searchPage: 1,
   });
+  const [prevSearch, setPrevSearch] = useState('');
 
-  const fetchResults = useCallback((text: string, page: number) => {
-    console.log('Fetching = ', text, page);
-    let isInitial = page === 1;
+  const fetchResults = useCallback(
+    (text: string, page: number, retain?: boolean) => {
+      console.log('Fetching = ', text, page);
+      let isInitial = page === 1;
 
-    //Call Github API on search change
-    fetch(`${BASE_API_URL}?q=${text}&sort=stars&order=desc&page=${page}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setState((prevState) => ({
-          ...prevState,
-          searchPage: page,
-          searchText: text,
-          searchResult: isInitial
-            ? res.items
-            : [...prevState.searchResult, ...res.items],
-        }));
-        setIsLoading(false);
-        setIsPaginating(false);
+      //Call Github API on search change
+      fetch(`${BASE_API_URL}?q=${text}&sort=stars&order=desc&page=${page}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       })
-      .catch(() => {
-        setIsLoading(false);
-        setIsPaginating(false);
-      });
-  }, []);
+        .then((res) => res.json())
+        .then((res) => {
+          setState((prevState) => ({
+            ...prevState,
+            searchPage: page,
+            searchText: retain === true ? prevState.searchText : text,
+            searchResult: isInitial
+              ? res.items
+              : [...prevState.searchResult, ...res.items],
+          }));
+
+          if (retain) {
+            setPrevSearch(text);
+          }
+
+          setIsLoading(false);
+          setIsPaginating(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+          setIsPaginating(false);
+        });
+    },
+    [],
+  );
 
   const debounceSearch = useCallback(
     _.debounce((text, page) => {
@@ -93,8 +103,8 @@ export const RepoProvider = ({children}: {children: React.ReactNode}) => {
 
   useEffect(() => {
     setIsPaginating(true);
-    fetchResults('', state.searchPage);
-  }, [state.searchPage, fetchResults]);
+    fetchResults(prevSearch, state.searchPage, true);
+  }, [state.searchPage, prevSearch, fetchResults]);
 
   return (
     <RepoContext.Provider
